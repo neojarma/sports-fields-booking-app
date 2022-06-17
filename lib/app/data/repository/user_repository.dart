@@ -20,11 +20,10 @@ abstract class UserRepository {
   }
 
   static Future<UserResponse> updateUser(UserRequest request) async {
-    Response<dynamic> req;
     try {
       var url = ApiProvider.updateUser;
-      req = await getConnect.put(url, request.toJson());
-      return UserResponse.fromJson(req.body);
+      final req = await getConnect.put(url, request.toJson());
+      return UserResponse.fromJson(req.body['data']);
     } catch (e) {
       throw Exception('Failed to update data');
     }

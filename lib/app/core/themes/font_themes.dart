@@ -16,6 +16,17 @@ final buttonText = GoogleFonts.montserrat(
   fontWeight: FontWeight.w600,
 );
 
+final profileTextStyle = GoogleFonts.montserrat(
+  fontSize: 25,
+  fontWeight: FontWeight.w600,
+);
+
+final subtitleProfileTextStyle = GoogleFonts.montserrat(
+  fontSize: 15,
+  fontWeight: FontWeight.w600,
+  color: Colors.black45,
+);
+
 final smallText = GoogleFonts.montserrat(
   fontSize: 15,
   fontWeight: FontWeight.w600,

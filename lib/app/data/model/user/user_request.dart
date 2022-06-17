@@ -20,9 +20,9 @@ class UserRequest {
       'idUser': idUser,
       'name': name,
       'address': address,
-      'phone_number': phoneNumber,
+      'phoneNumber': phoneNumber,
       'email': email,
-      'image': image,
+      'profile': image,
     };
   }
 }
