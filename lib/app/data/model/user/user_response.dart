@@ -22,7 +22,7 @@ class UserResponse {
       address: json['address'],
       phoneNumber: json['phoneNumber'],
       email: json['email'],
-      image: json['imageProfile'],
+      image: json['imageProfile'].replaceAll('\n', ''),
     );
   }
 }
