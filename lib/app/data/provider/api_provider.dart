@@ -5,12 +5,12 @@ abstract class ApiProvider {
   static const login = '$_baseUrl/login';
 
   static const getDetailUser = '$_baseUrl/user/'; // {username}
-  static const updateUser = '$_baseUrl/user/'; // {userId}
+  static const updateUser = '$_baseUrl/user'; // {userId}
 
   static const getSchedule =
       '$_baseUrl/reserve'; // ?venue={venueId}&date={date}
   static const getReservationById = '$_baseUrl/reserve/'; // /{userId}
-  static const deleteReservation = '$_baseUrl/reserve/'; // /{reservationId}
+  static const cancelReservation = '$_baseUrl/reserve/'; // /{reservationId}
   static const createReservation = '$_baseUrl/reserve';
   static const updateReservation = '$_baseUrl/reserve';
 

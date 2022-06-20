@@ -3,13 +3,17 @@ import 'package:sports_booking_app/app/data/model/Register/register_response.dar
 import 'package:sports_booking_app/app/data/model/Register/register_request.dart';
 import 'package:sports_booking_app/app/data/provider/api_provider.dart';
 
-class RegisterRepository {
+abstract class RegisterRepository {
   static final getConnect = GetConnect();
 
   static Future<RegisterResponse> register(RegisterRequest request) async {
-    final req = await getConnect.post(ApiProvider.register, request.toJson());
-    final response = RegisterResponse.fromJson(req.body);
+    Response<dynamic> req;
 
-    return response;
+    try {
+      req = await getConnect.post(ApiProvider.register, request.toJson());
+      return RegisterResponse.fromJson(req.body);
+    } catch (e) {
+      throw Exception('Failed to send request');
+    }
   }
 }
