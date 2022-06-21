@@ -14,8 +14,8 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: const Center(
-          // child: SfDateRangePicker(),
-          ),
+        child: Text('home'),
+      ),
     );
   }
 }
