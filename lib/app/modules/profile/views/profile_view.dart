@@ -12,7 +12,7 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customWhiteAppBar(),
+      appBar: customWhiteAppBar('My Profile'),
       body: controller.obx(
         (state) => const ProfileBuilder(),
         onLoading: const LoadingSpinkit(),

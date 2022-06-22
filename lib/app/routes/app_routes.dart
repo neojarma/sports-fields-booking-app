@@ -14,6 +14,7 @@ abstract class Routes {
   static const HISTORY_BOOKING = _Paths.HISTORY_BOOKING;
   static const ALL_VENUE = _Paths.ALL_VENUE;
   static const ACTIVE_BOOKING = _Paths.ACTIVE_BOOKING;
+  static const BOOKING_FIELD = _Paths.BOOKING_FIELD;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const HISTORY_BOOKING = '/history-booking';
   static const ALL_VENUE = '/all-venue';
   static const ACTIVE_BOOKING = '/active-booking';
+  static const BOOKING_FIELD = '/booking-field';
 }

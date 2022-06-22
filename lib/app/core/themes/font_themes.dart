@@ -41,3 +41,8 @@ final subtitle1 = GoogleFonts.montserrat(
   fontSize: 17,
   fontWeight: FontWeight.w600,
 );
+
+final mediumText = GoogleFonts.montserrat(
+  fontWeight: FontWeight.w600,
+  fontSize: 20,
+);

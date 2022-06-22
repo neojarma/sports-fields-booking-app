@@ -12,7 +12,7 @@ class EditProfileView extends GetView<EditProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customWhiteAppBar(),
+      appBar: customWhiteAppBar('My Profile'),
       body: controller.obx(
         (state) => const EditProfileBuilder(),
         onLoading: const LoadingSpinkit(),

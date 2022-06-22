@@ -4,6 +4,8 @@ import '../modules/active_booking/bindings/active_booking_binding.dart';
 import '../modules/active_booking/views/active_booking_view.dart';
 import '../modules/all_venue/bindings/all_venue_binding.dart';
 import '../modules/all_venue/views/all_venue_view.dart';
+import '../modules/booking_field/bindings/booking_field_binding.dart';
+import '../modules/booking_field/views/booking_field_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/history_booking/bindings/history_booking_binding.dart';
@@ -80,6 +82,11 @@ class AppPages {
       name: _Paths.ACTIVE_BOOKING,
       page: () => const ActiveBookingView(),
       binding: ActiveBookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING_FIELD,
+      page: () => const BookingFieldView(),
+      binding: BookingFieldBinding(),
     ),
   ];
 }
