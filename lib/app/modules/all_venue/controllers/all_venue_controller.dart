@@ -5,9 +5,12 @@ import 'package:sports_booking_app/app/data/model/venue/venue_response.dart';
 import 'package:sports_booking_app/app/data/service/venue_service.dart';
 import 'package:sports_booking_app/app/routes/app_pages.dart';
 
+import '../../home/controllers/home_controller.dart';
+
 class AllVenueController extends GetxController with StateMixin {
   late final List<VenueResponse> venues;
   var filteredVenues = <VenueResponse>[].obs;
+  final homeController = Get.find<HomeController>();
 
   @override
   void onInit() {
@@ -17,6 +20,10 @@ class AllVenueController extends GetxController with StateMixin {
   }
 
   void toBookingFieldPage(VenueResponse venue) {
+    if (homeController.dataUser == null) {
+      return;
+    }
+
     Get.toNamed(Routes.BOOKING_FIELD, arguments: venue);
   }
 

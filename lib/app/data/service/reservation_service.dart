@@ -14,15 +14,15 @@ abstract class ReservationService {
     return await ReservationRepository.getReservationListByUserId(userId);
   }
 
-  static void cancelReservation(String idTransaction) async {
+  static Future<void> cancelReservation(String idTransaction) async {
     ReservationRepository.cancelReservation(idTransaction);
   }
 
-  static void createReservation(ReservationRequest request) async {
+  static Future<void> createReservation(ReservationRequest request) async {
     ReservationRepository.createReservation(request);
   }
 
-  static void updateReservation(ReservationRequest request) async {
+  static Future<void> updateReservation(ReservationRequest request) async {
     ReservationRepository.updateReservation(request);
   }
 }

@@ -30,7 +30,7 @@ abstract class ReservationRepository {
     return data.map((each) => ReservationResponse.fromJson(each)).toList();
   }
 
-  static void cancelReservation(String idTransaction) async {
+  static Future<void> cancelReservation(String idTransaction) async {
     try {
       final url = '${ApiProvider.cancelReservation}$idTransaction';
 
@@ -40,7 +40,7 @@ abstract class ReservationRepository {
     }
   }
 
-  static void createReservation(ReservationRequest request) async {
+  static Future<void> createReservation(ReservationRequest request) async {
     try {
       const url = ApiProvider.createReservation;
       await getConnect.post(url, request.createReservationToJson());
@@ -49,7 +49,7 @@ abstract class ReservationRepository {
     }
   }
 
-  static void updateReservation(ReservationRequest request) async {
+  static Future<void> updateReservation(ReservationRequest request) async {
     try {
       const url = ApiProvider.updateReservation;
       await getConnect.put(url, request.updateReservationToJson());

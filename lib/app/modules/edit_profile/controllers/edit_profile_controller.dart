@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sports_booking_app/app/core/themes/success_snackbar_theme.dart';
+import 'package:sports_booking_app/app/core/themes/custom_snackbar_theme.dart';
 import 'package:sports_booking_app/app/data/model/user/user_request.dart';
 import 'package:sports_booking_app/app/data/model/user/user_response.dart';
 import 'package:sports_booking_app/app/data/service/user_service.dart';
@@ -69,7 +69,10 @@ class EditProfileController extends GetxController with StateMixin {
 
     userProfile = await UserService.updateUser(request);
 
-    CustomSnackbar.successSnackbar();
+    CustomSnackbar.successSnackbar(
+      title: 'Success',
+      message: 'Success edit profile',
+    );
 
     change(true, status: RxStatus.success());
   }

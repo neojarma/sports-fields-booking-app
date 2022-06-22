@@ -10,7 +10,7 @@ import '../../profile/views/profile_view.dart';
 
 class HomeController extends GetxController {
   final String username = Get.arguments;
-  late final UserResponse dataUser;
+  UserResponse? dataUser;
 
   var pageIndex = 0.obs;
   var pageController = PageController(initialPage: 0);
