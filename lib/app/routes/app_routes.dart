@@ -11,6 +11,9 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   static const PROFILE = _Paths.PROFILE;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
+  static const HISTORY_BOOKING = _Paths.HISTORY_BOOKING;
+  static const ALL_VENUE = _Paths.ALL_VENUE;
+  static const ACTIVE_BOOKING = _Paths.ACTIVE_BOOKING;
 }
 
 abstract class _Paths {
@@ -21,4 +24,7 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const PROFILE = '/profile';
   static const EDIT_PROFILE = '/edit-profile';
+  static const HISTORY_BOOKING = '/history-booking';
+  static const ALL_VENUE = '/all-venue';
+  static const ACTIVE_BOOKING = '/active-booking';
 }

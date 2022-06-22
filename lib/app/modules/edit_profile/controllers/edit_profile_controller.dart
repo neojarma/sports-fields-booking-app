@@ -1,11 +1,22 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:sports_booking_app/app/core/themes/success_snackbar_theme.dart';
 import 'package:sports_booking_app/app/data/model/user/user_request.dart';
 import 'package:sports_booking_app/app/data/model/user/user_response.dart';
 import 'package:sports_booking_app/app/data/service/user_service.dart';
 
+import '../../home/controllers/home_controller.dart';
+
 class EditProfileController extends GetxController with StateMixin {
   late UserResponse userProfile;
+
+  late Image temporaryImage;
+  String temporaryImagePath = '';
+  var isImageChange = false.obs;
 
   late final TextEditingController nameController;
   late final TextEditingController addressController;
@@ -19,6 +30,23 @@ class EditProfileController extends GetxController with StateMixin {
     super.onInit();
   }
 
+  void pickImage() async {
+    isImageChange.value = false;
+    var userImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (userImage == null) return;
+
+    isImageChange.value = true;
+    temporaryImagePath = userImage.path;
+    temporaryImage = Image.asset(temporaryImagePath);
+
+    refresh();
+  }
+
+  String getBase64FromImagePath() {
+    final bytes = File(temporaryImagePath).readAsBytesSync();
+    return base64Encode(bytes);
+  }
+
   void handleEditProfile() async {
     change(false, status: RxStatus.loading());
 
@@ -27,7 +55,8 @@ class EditProfileController extends GetxController with StateMixin {
     final phoneNumber = phoneNumberController.text;
     final email = emailController.text;
     final idUser = userProfile.idUser;
-    final image = userProfile.image;
+    final image =
+        isImageChange.value ? getBase64FromImagePath() : userProfile.image;
 
     final request = UserRequest(
       idUser: idUser,
@@ -38,19 +67,15 @@ class EditProfileController extends GetxController with StateMixin {
       image: image,
     );
 
-    // print(request.idUser);
-    // print(request.name);
-    // print(request.address);
-    // print(request.phoneNumber);
-    // print(request.email);
-    // print(request.image);
-
     userProfile = await UserService.updateUser(request);
+
+    CustomSnackbar.successSnackbar();
 
     change(true, status: RxStatus.success());
   }
 
   void initalizeValueOfController() {
+    temporaryImage = Image.memory(base64Decode(userProfile.image));
     nameController.value = TextEditingValue(text: userProfile.name);
     addressController.value = TextEditingValue(text: userProfile.address);
     phoneNumberController.value = TextEditingValue(
@@ -69,7 +94,8 @@ class EditProfileController extends GetxController with StateMixin {
   void initializeUserProfile() async {
     change(false, status: RxStatus.loading());
 
-    userProfile = await UserService.getUser('acer');
+    final homeController = Get.find<HomeController>();
+    userProfile = await UserService.getUser(homeController.username);
 
     initializeController();
     initalizeValueOfController();

@@ -7,7 +7,7 @@ AppBar customWhiteAppBar() {
     toolbarHeight: 70,
     elevation: 0,
     foregroundColor: Colors.black,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.transparent,
     title: Text(
       'My Profile',
       style: profileTextStyle,

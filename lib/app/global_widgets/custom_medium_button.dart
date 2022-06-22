@@ -18,7 +18,7 @@ class CustomMediumButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: Ink(
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(

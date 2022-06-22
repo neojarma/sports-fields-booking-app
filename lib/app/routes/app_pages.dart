@@ -1,7 +1,13 @@
 import 'package:get/get.dart';
 
+import '../modules/active_booking/bindings/active_booking_binding.dart';
+import '../modules/active_booking/views/active_booking_view.dart';
+import '../modules/all_venue/bindings/all_venue_binding.dart';
+import '../modules/all_venue/views/all_venue_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
+import '../modules/history_booking/bindings/history_booking_binding.dart';
+import '../modules/history_booking/views/history_booking_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -26,7 +32,14 @@ class AppPages {
     GetPage(
       name: _Paths.HOME,
       page: () => const HomeView(),
-      binding: HomeBinding(),
+      // binding: HomeBinding(),
+      bindings: [
+        HomeBinding(),
+        ActiveBookingBinding(),
+        HistoryBookingBinding(),
+        ProfileBinding(),
+        AllVenueBinding(),
+      ],
     ),
     GetPage(
       name: _Paths.ONBOARDING,
@@ -52,6 +65,21 @@ class AppPages {
       name: _Paths.EDIT_PROFILE,
       page: () => const EditProfileView(),
       binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.HISTORY_BOOKING,
+      page: () => const HistoryBookingView(),
+      binding: HistoryBookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_VENUE,
+      page: () => const AllVenueView(),
+      binding: AllVenueBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACTIVE_BOOKING,
+      page: () => const ActiveBookingView(),
+      binding: ActiveBookingBinding(),
     ),
   ];
 }

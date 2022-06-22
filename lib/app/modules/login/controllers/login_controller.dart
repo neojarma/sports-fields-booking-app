@@ -35,7 +35,7 @@ class LoginController extends GetxController with StateMixin {
     change(true, status: RxStatus.success());
 
     if (isValid) {
-      Get.offNamed(Routes.HOME);
+      Get.offNamed(Routes.HOME, arguments: inputtedUsername);
       return;
     }
 
