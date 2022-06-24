@@ -37,7 +37,8 @@ class EditProfileController extends GetxController with StateMixin {
 
     isImageChange.value = true;
     temporaryImagePath = userImage.path;
-    temporaryImage = Image.asset(temporaryImagePath);
+    File imageFile = File(temporaryImagePath);
+    temporaryImage = Image.file(imageFile);
 
     refresh();
   }

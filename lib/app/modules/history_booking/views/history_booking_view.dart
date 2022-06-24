@@ -13,7 +13,7 @@ class HistoryBookingView extends GetView<HistoryBookingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customWhiteAppBar('Booked Fields'),
+      appBar: customWhiteAppBar('Booking History'),
       body: SmartRefresher(
         controller: controller.refreshController,
         onRefresh: controller.handleRefresh,
