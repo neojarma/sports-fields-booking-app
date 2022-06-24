@@ -25,4 +25,9 @@ abstract class ReservationService {
   static Future<void> updateReservation(ReservationRequest request) async {
     ReservationRepository.updateReservation(request);
   }
+
+  static Future<List<int>> getScheduleExcludeTxId(
+      ScheduleRequest request) async {
+    return await ReservationRepository.getScheduleExcludeTxId(request);
+  }
 }

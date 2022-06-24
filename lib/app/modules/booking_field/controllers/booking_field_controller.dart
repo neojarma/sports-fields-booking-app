@@ -1,15 +1,21 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sports_booking_app/app/core/themes/custom_snackbar_theme.dart';
-import 'package:sports_booking_app/app/data/model/reservation/reservation_request.dart';
 import 'package:sports_booking_app/app/data/model/reservation/schedule_request.dart';
 import 'package:sports_booking_app/app/data/model/venue/venue_response.dart';
 import 'package:sports_booking_app/app/data/service/reservation_service.dart';
 import 'package:sports_booking_app/app/modules/home/controllers/home_controller.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../../data/model/reservation/reservation_request.dart';
+
+const millisecondToHour = 3600000;
+
 class BookingFieldController extends GetxController {
-  final VenueResponse infoVenue = Get.arguments;
+  late final VenueResponse infoVenue;
+  late final bool isEditReservation;
+  late final String transactionId;
+
   final homeController = Get.find<HomeController>();
   final refreshController = RefreshController();
 
@@ -22,23 +28,91 @@ class BookingFieldController extends GetxController {
 
   @override
   void onInit() {
-    initializeHour();
+    parsingArgument();
 
     super.onInit();
   }
 
-  Future<void> refreshSchedule() async {
+  @override
+  void onReady() {
+    initializeDate();
+
+    isEditReservation ? initalizeHourEdit() : initalizeHour();
+
+    super.onReady();
+  }
+
+  void parsingArgument() {
+    infoVenue = Get.arguments['infoVenue'];
+    isEditReservation = Get.arguments['isEditReservation'];
+    transactionId = Get.arguments['transactionId'];
+  }
+
+  Future<void> refreshSchedule(bool isSubmitRequest) async {
     final request = ScheduleRequest(
       venueId: infoVenue.idVenue,
       date: userPickDateSinceEpoch,
     );
 
+    refreshController.requestRefresh();
     hours = await ReservationService.getSchedule(request).then((value) {
       refreshController.refreshCompleted();
       return value;
     });
 
-    temporaryHours.value = [...hours];
+    if (!isSubmitRequest) {
+      temporaryHours.value = [...hours];
+      userHours.clear();
+    }
+  }
+
+  void handleEditReservation() async {
+    final beginTime = userPickDateSinceEpoch + userHours[0] * millisecondToHour;
+    final endTime = userPickDateSinceEpoch +
+        userHours[userHours.length - 1] * millisecondToHour;
+    final totalPrice = infoVenue.pricePerHour * userHours.length;
+    final request = ReservationRequest(
+      idTransaction: transactionId,
+      totalPrice: totalPrice,
+      beginTime: beginTime,
+      endTime: endTime,
+      hours: userHours,
+      venueId: infoVenue.idVenue,
+      userId: homeController.dataUser?.idUser,
+      bookingTime: getCurrentDateTime().millisecondsSinceEpoch,
+    );
+
+    await ReservationService.updateReservation(request).then(
+      (_) {
+        CustomSnackbar.successSnackbar(
+            title: 'Success', message: 'Reservation update succes');
+        refreshSchedule(true);
+      },
+    );
+  }
+
+  void createReservation() async {
+    final beginTime = userPickDateSinceEpoch + userHours[0] * millisecondToHour;
+    final endTime = userPickDateSinceEpoch +
+        userHours[userHours.length - 1] * millisecondToHour;
+    final totalPrice = infoVenue.pricePerHour * userHours.length;
+    final request = ReservationRequest(
+      totalPrice: totalPrice,
+      beginTime: beginTime,
+      endTime: endTime,
+      hours: userHours,
+      venueId: infoVenue.idVenue,
+      userId: homeController.dataUser?.idUser,
+      bookingTime: getCurrentDateTime().millisecondsSinceEpoch,
+    );
+
+    await ReservationService.createReservation(request).then(
+      (_) {
+        CustomSnackbar.successSnackbar(
+            title: 'Success', message: 'Reservation process succes');
+        refreshSchedule(true);
+      },
+    );
   }
 
   void handleSubmitBookingField() async {
@@ -50,36 +124,49 @@ class BookingFieldController extends GetxController {
       return;
     }
 
-    const millisecondToHour = 3600000;
+    userHours.sort();
 
-    final beginTime = userPickDateSinceEpoch + userHours[0] * millisecondToHour;
-    final endTime = userPickDateSinceEpoch +
-        userHours[userHours.length - 1] * millisecondToHour;
-    final request = ReservationRequest(
-      beginTime: beginTime,
-      endTime: endTime,
-      hours: userHours,
-      venueId: infoVenue.idVenue,
-      userId: homeController.dataUser?.idUser,
-    );
+    if (isEditReservation) {
+      handleEditReservation();
+      return;
+    }
 
-    await ReservationService.createReservation(request).then(
-      (_) => CustomSnackbar.successSnackbar(
-          title: 'Success', message: 'Reservation process succes'),
-    );
+    createReservation();
   }
 
-  void initializeHour() async {
+  void initializeDate() {
     final now = getCurrentDateTime();
     final pureDate = DateTime(now.year, now.month, now.day);
     userPickDateSinceEpoch = pureDate.millisecondsSinceEpoch;
+  }
 
+  void initalizeHour() async {
     final request = ScheduleRequest(
       venueId: infoVenue.idVenue,
       date: userPickDateSinceEpoch,
     );
+    refreshController.requestRefresh();
+    hours = await ReservationService.getSchedule(request).then((value) {
+      refreshController.refreshCompleted();
+      return value;
+    });
 
-    hours = await ReservationService.getSchedule(request);
+    temporaryHours.value = [...hours];
+  }
+
+  void initalizeHourEdit() async {
+    final request = ScheduleRequest(
+      venueId: infoVenue.idVenue,
+      date: userPickDateSinceEpoch,
+      txId: transactionId,
+    );
+
+    refreshController.requestRefresh();
+    hours =
+        await ReservationService.getScheduleExcludeTxId(request).then((value) {
+      refreshController.refreshCompleted();
+      return value;
+    });
 
     temporaryHours.value = [...hours];
   }
@@ -150,9 +237,14 @@ class BookingFieldController extends GetxController {
 
     final request = ScheduleRequest(
         venueId: infoVenue.idVenue, date: userPickDateSinceEpoch);
-    hours = await ReservationService.getSchedule(request);
+
+    refreshController.requestRefresh();
+    hours = (isEditReservation)
+        ? await ReservationService.getScheduleExcludeTxId(request)
+        : await ReservationService.getSchedule(request);
 
     temporaryHours.value = [...hours];
+    refreshController.refreshCompleted();
 
     userHours.clear();
   }

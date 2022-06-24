@@ -57,4 +57,14 @@ abstract class ReservationRepository {
       log(e.toString());
     }
   }
+
+  static Future<List<int>> getScheduleExcludeTxId(
+      ScheduleRequest request) async {
+    final url =
+        '${ApiProvider.getScheduleExcludeTxId}?venue=${request.venueId}&date=${request.date}&txId=${request.txId}';
+
+    var req = await getConnect.get(url);
+
+    return req.body['data'].cast<int>();
+  }
 }

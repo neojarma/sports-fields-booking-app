@@ -17,7 +17,7 @@ class BookingFieldView extends GetView<BookingFieldController> {
       appBar: customWhiteAppBar(controller.infoVenue.idVenue),
       body: SmartRefresher(
         controller: controller.refreshController,
-        onRefresh: controller.refreshSchedule,
+        onRefresh: () => controller.refreshSchedule(false),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

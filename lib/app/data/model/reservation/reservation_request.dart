@@ -2,9 +2,11 @@ class ReservationRequest {
   final String? idTransaction;
   final String? venueId;
   final String? userId;
+  final int bookingTime;
   final int beginTime;
   final int endTime;
   final List<int> hours;
+  final int totalPrice;
 
   ReservationRequest({
     this.idTransaction,
@@ -13,6 +15,8 @@ class ReservationRequest {
     required this.beginTime,
     required this.endTime,
     required this.hours,
+    required this.bookingTime,
+    required this.totalPrice,
   });
 
   Map<String, dynamic> updateReservationToJson() {
@@ -21,6 +25,8 @@ class ReservationRequest {
       'beginTime': beginTime,
       'endTime': endTime,
       'hours': hours,
+      'bookingTime': bookingTime,
+      'totalPrice': totalPrice,
     };
   }
 
@@ -31,6 +37,8 @@ class ReservationRequest {
       'beginTime': beginTime,
       'endTime': endTime,
       'hours': hours,
+      'bookingTime': bookingTime,
+      'totalPrice': totalPrice,
     };
   }
 }

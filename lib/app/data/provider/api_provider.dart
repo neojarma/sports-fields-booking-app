@@ -13,6 +13,8 @@ abstract class ApiProvider {
   static const cancelReservation = '$_baseUrl/reserve/'; // /{reservationId}
   static const createReservation = '$_baseUrl/reserve';
   static const updateReservation = '$_baseUrl/reserve';
+  static const getScheduleExcludeTxId =
+      '$_baseUrl/reserve/schedule'; // ??venue={venueId}&date={date}&txId={txId}
 
   static const getAllVenue = '$_baseUrl/venue';
   static const getDetailVenue = '$_baseUrl/venue/'; // {venueId}

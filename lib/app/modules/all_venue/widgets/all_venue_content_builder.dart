@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/themes/font_themes.dart';
 import '../../../core/values/colors.dart';
+import '../../../helper/formatted_price.dart';
 import '../controllers/all_venue_controller.dart';
 
 class AllVenueContentBuilder extends GetView<AllVenueController> {
@@ -37,9 +39,13 @@ class AllVenueContentBuilder extends GetView<AllVenueController> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: Image.network(
-                        controller.venues[index].image,
+                      child: CachedNetworkImage(
                         width: 150,
+                        fit: BoxFit.cover,
+                        imageUrl: controller.venues[index].image,
+                        placeholder: (context, url) => const SizedBox(
+                          width: 150,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -74,7 +80,7 @@ class AllVenueContentBuilder extends GetView<AllVenueController> {
                               size: 14,
                             ),
                             Text(
-                              'Rp. ${controller.getFormattedPrice(controller.venues[index].pricePerHour)}',
+                              'Rp. ${getFormattedPrice(controller.venues[index].pricePerHour)}',
                               style: textfieldText.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),

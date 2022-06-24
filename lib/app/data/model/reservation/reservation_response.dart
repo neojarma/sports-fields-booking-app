@@ -5,6 +5,8 @@ class ReservationResponse {
   final int endTime;
   final String status;
   final List<int> hours;
+  final int bookingTime;
+  final int totalPrice;
 
   ReservationResponse({
     required this.status,
@@ -12,7 +14,9 @@ class ReservationResponse {
     required this.venueId,
     required this.beginTime,
     required this.endTime,
+    required this.bookingTime,
     required this.hours,
+    required this.totalPrice,
   });
 
   factory ReservationResponse.fromJson(Map<String, dynamic> json) {
@@ -22,7 +26,9 @@ class ReservationResponse {
       venueId: json['idVenue'],
       beginTime: json['beginTime'],
       endTime: json['endTime'],
+      bookingTime: json['bookingTime'],
       hours: json['hours'].cast<int>(),
+      totalPrice: json['totalPrice'],
     );
   }
 }
