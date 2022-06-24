@@ -32,7 +32,7 @@ class OnboardingView extends GetView<OnboardingController> {
               height: Get.height * 0.15,
             ),
             OnBoardingButton(
-              function: () => Get.offAndToNamed(Routes.LOGIN),
+              function: () => Get.offAndToNamed(Routes.LOGIN, arguments: false),
             ),
           ],
         ),

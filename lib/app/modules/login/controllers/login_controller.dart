@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sports_booking_app/app/core/themes/custom_snackbar_theme.dart';
 import 'package:sports_booking_app/app/data/model/login/login_request.dart';
 import 'package:sports_booking_app/app/data/service/login_service.dart';
 import 'package:sports_booking_app/app/routes/app_pages.dart';
@@ -22,6 +23,14 @@ class LoginController extends GetxController with StateMixin {
   }
 
   void handleLogin() async {
+    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+      CustomSnackbar.failedSnackbar(
+        title: 'Failed',
+        message: 'Please input username and password',
+      );
+      return;
+    }
+
     final inputtedUsername = usernameController.text;
     final inputtedPassword = passwordController.text;
 
@@ -35,13 +44,13 @@ class LoginController extends GetxController with StateMixin {
     change(true, status: RxStatus.success());
 
     if (isValid) {
-      Get.offNamed(Routes.HOME, arguments: inputtedUsername);
+      Get.offAllNamed(Routes.HOME, arguments: inputtedUsername);
       return;
     }
 
-    Get.snackbar(
-      'Login',
-      'Invalid username or password',
+    CustomSnackbar.failedSnackbar(
+      title: 'Failed',
+      message: 'Wrong username or password',
     );
   }
 }
