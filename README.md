@@ -1,4 +1,4 @@
-# 24 Game
+# Sports Field Booking App
 
 UI design by [Rony Wahyu](https://github.com/ronywahyuu).  
 Coded by [Me](https://github.com/neojarma).
