@@ -4,6 +4,8 @@ import 'package:sports_booking_app/app/core/themes/custom_snackbar_theme.dart';
 import 'package:sports_booking_app/app/data/model/reservation/schedule_request.dart';
 import 'package:sports_booking_app/app/data/model/venue/venue_response.dart';
 import 'package:sports_booking_app/app/data/service/reservation_service.dart';
+import 'package:sports_booking_app/app/helper/formatted_price.dart';
+import 'package:sports_booking_app/app/modules/booking_field/widgets/dialog_content.dart';
 import 'package:sports_booking_app/app/modules/home/controllers/home_controller.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -106,6 +108,21 @@ class BookingFieldController extends GetxController {
       bookingTime: getCurrentDateTime().millisecondsSinceEpoch,
     );
 
+    final dialogModel = DialogContentModel(
+      venueName: infoVenue.venueName,
+      pricePerHour: 'Rp. ${getFormattedPrice(infoVenue.pricePerHour)}',
+      totalHour: userHours.length.toString(),
+      totalPrice: 'Rp. ${getFormattedPrice(totalPrice)}',
+      onConfirm: () {
+        createReservationRequest(request);
+        Get.back();
+      },
+    );
+
+    showOrderDialogSummary(dialogModel);
+  }
+
+  void createReservationRequest(ReservationRequest request) async {
     await ReservationService.createReservation(request).then(
       (_) {
         CustomSnackbar.successSnackbar(
@@ -218,7 +235,7 @@ class BookingFieldController extends GetxController {
   }
 
   bool isMoreThanThreeHours() {
-    final isMoreThanThreeHours = userHours.length > 3;
+    final isMoreThanThreeHours = userHours.length >= 3;
     if (isMoreThanThreeHours) {
       CustomSnackbar.failedSnackbar(
         title: 'Error',
